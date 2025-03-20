@@ -7,6 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import ListIcon from '@mui/icons-material/List';
 import Drawer from '@mui/material/Drawer';
 import {NavigationDrawer} from "../NavigationDrawer";
+import {useAuthentication} from "../../hooks/useAuthentication.tsx";
+import {useQuery} from "@tanstack/react-query";
 
 function stringAvatar(name: string) {
     return {
@@ -19,11 +21,17 @@ function stringAvatar(name: string) {
 
 
 export function Header() {
-
+    const {getCurrentInfoUser} = useAuthentication()
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
+
+    const {data: currentUser, isLoading: isLoadingCurrentUser} = useQuery({
+        queryKey: ['currentUser'],
+        queryFn: getCurrentInfoUser,
+        staleTime: Infinity
+    })
 
     return (
         <Box sx={{
@@ -60,7 +68,7 @@ export function Header() {
                         Class Manager
                     </Box>
                 </Stack>
-                <Avatar {...stringAvatar('Lucas Emanoel')} />
+                <Avatar {...stringAvatar(currentUser?.username ?? "Generic User")} />
             </Stack>
         </Box>
     )

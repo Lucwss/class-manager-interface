@@ -1,5 +1,6 @@
 import {createContext, ReactNode, useCallback,} from "react";
 import {api} from "../lib/axios.ts";
+import {CurrentUser} from "../interfaces/currentUser.ts";
 
 interface Authentication {
     email: string
@@ -8,6 +9,7 @@ interface Authentication {
 
 interface AuthenticationContextType {
     authenticate: (data: Authentication) => Promise<void>
+    getCurrentUser: () => Promise<CurrentUser | null>
     signOut: () => Promise<void>
 }
 
@@ -43,9 +45,23 @@ export function AuthProvider({ children }: Readonly<AuthProviderProps>) {
         localStorage.removeItem("userInformation");
     }, [])
 
+    const getCurrentUser = useCallback(async () => {
+        const response = await api.get('users/me/')
+
+        const payload = response.data.payload
+
+        return {
+            id: payload.id,
+            email: payload.email,
+            username: payload.username,
+            createdAt: payload.created_at,
+            updatedAt: payload.updated_at
+        } as CurrentUser
+    }, [])
+
 
     return (
-        <AuthContext.Provider value={{ authenticate, signOut }}>
+        <AuthContext.Provider value={{ authenticate, signOut, getCurrentUser }}>
             {children}
         </AuthContext.Provider>
     )

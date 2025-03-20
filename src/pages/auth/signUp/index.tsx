@@ -14,7 +14,6 @@ import {useForm} from 'react-hook-form'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {signUpForm, SignUpForm} from "../../../types/authentication.ts";
-import {useAuthentication} from "../../../hooks/useAuthentication.tsx";
 import {UserService} from "../../../services/users.ts";
 import {useMutation} from "@tanstack/react-query";
 import {useNavigate} from "react-router-dom";
