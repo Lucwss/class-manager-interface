@@ -5,6 +5,7 @@ import {Students} from "./pages/app/students";
 import {Schedules} from "./pages/app/schedules";
 import {AuthLayout} from "./pages/_layout/auth.tsx";
 import {SignIn} from "./pages/auth/signIn";
+import {SignUp} from "./pages/auth/signUp";
 
 
 export const router = createBrowserRouter([
@@ -36,7 +37,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/sign-up",
-                element: <div>Sign up</div>
+                element: <SignUp/>
             }
         ]
     },

@@ -13,20 +13,30 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import {useForm} from 'react-hook-form'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {signInForm, SignInForm} from "../../../types/authentication.ts";
+import {signUpForm, SignUpForm} from "../../../types/authentication.ts";
 import {useAuthentication} from "../../../hooks/useAuthentication.tsx";
+import {UserService} from "../../../services/users.ts";
+import {useMutation} from "@tanstack/react-query";
 import {useNavigate} from "react-router-dom";
 
-export function SignIn() {
+export function SignUp() {
     const [showPassword, setShowPassword] = React.useState(false);
-    const { handleSignIn } = useAuthentication()
+    const userService = new UserService()
     const navigate = useNavigate()
+
     const {
         register,
         handleSubmit,
         formState: { isSubmitting }
-    } = useForm<SignInForm>({
-        resolver: zodResolver(signInForm)
+    } = useForm<SignUpForm>({
+        resolver: zodResolver(signUpForm)
+    })
+
+    const { mutateAsync: signUp } = useMutation({
+        mutationFn: userService.create,
+        onSuccess: () => {
+            navigate('/sign-in')
+        }
     })
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -43,12 +53,12 @@ export function SignIn() {
                     <CardContent>
                         <Stack direction="column" alignItems="center" gap={5}>
                             <Typography gutterBottom sx={{ color: '#4caf50', fontSize: 30 }}>
-                                Welcome to Class Manager
+                                Register for Class Manager
                             </Typography>
                             <Box
                                 width="100%"
                                 component="form"
-                                onSubmit={handleSubmit(handleSignIn)}
+                                onSubmit={handleSubmit((data) => signUp(data))}
                                 noValidate
                                 autoComplete="off"
                                 display="flex"
@@ -62,6 +72,14 @@ export function SignIn() {
                                         label="E-mail"
                                         fullWidth
                                         {...register('email')}
+                                    />
+                                </Box>
+                                <Box width="60%">
+                                    <TextField
+                                        id="user name"
+                                        label="Username"
+                                        fullWidth
+                                        {...register('username')}
                                     />
                                 </Box>
                                 <Box width="60%">
@@ -87,8 +105,7 @@ export function SignIn() {
                                     />
                                 </Box>
                                 <Box width="60%" display="flex" justifyContent="center" flexDirection="column" gap={2}>
-                                    <Button type='submit' disabled={isSubmitting} variant="contained">Sign in</Button>
-                                    <Button onClick={() => navigate("/sign-up")} variant="outlined">Sign up</Button>
+                                    <Button type='submit' disabled={isSubmitting} variant="contained">Sign up</Button>
                                 </Box>
                             </Box>
                         </Stack>
