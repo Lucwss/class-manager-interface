@@ -13,6 +13,9 @@ export function AppLayout() {
         <Stack flexDirection="column" minHeight="100vh">
             <Header/>
             <Box display="flex"
+                 sx={{
+                     backgroundColor: '#f5f5f5',
+                 }}
                  flexDirection="column"
                  flex={1}
                  mt="64px"

@@ -24,6 +24,10 @@ export const router = createBrowserRouter([
             {
                 path: "/schedules",
                 element: <Schedules/>
+            },
+            {
+                path: "/schedules/add",
+                element: <div>Formulario criar nova aula privada</div>
             }
         ]
     },
