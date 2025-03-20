@@ -34,7 +34,7 @@ export function NavigationDrawer({toggleDrawer}: ToggleDrawerProps) {
     return (
         <Box sx={{ width: 250 }} role="presentation" onClick={() => toggleDrawer(false)}>
             <List>
-                {['Schedules', 'Students', 'Lectures'].map((text) => (
+                {['Schedules', 'Students', 'Lecturers'].map((text) => (
                     <ListItem key={text} disablePadding>
                         <ListItemButton onClick={() => navigate(`/${text.toLowerCase()}`)}>
                             <ListItemIcon>
